@@ -17,6 +17,7 @@ object_script.*.Debug
 /.qmake.stash
 *.pro.user
 *.pro.user.*
+*.pro.user*
 *.qbs.user
 *.qbs.user.*
 *.moc
@@ -26,7 +27,7 @@ qrc_*.cpp
 ui_*.h
 *.qmlc
 *.jsc
-*.ui
+#*.ui
 Makefile*
 *build-*
 
