@@ -3,6 +3,7 @@
 #include <mainwindow.cpp>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+
 #include <QTimer>
 
 Cell::Cell(int x, int y, int width, int height){

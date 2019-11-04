@@ -10,7 +10,7 @@
 #include <QtWidgets>
 #include <QObject>
 
-class Cell : public QGraphicsItem, public QMainWindow {
+class Cell : public QObject, public QGraphicsItem {
     Q_OBJECT
 
 public:
