@@ -5,8 +5,11 @@
 #include <QGraphicsScene>
 #include <QTimer>
 
+Cell::Cell(QObject *parent) : QObject(parent){}
+
 Cell::Cell(int x, int y, int width, int height){
     QColor color(255, 0, 0);
+    //randomly assign pink (alive) with 50% probability and white (dead) with 50% probability
     if(rand() % 100 < 50) {
         color.setRgb(242, 19, 131);
     }
@@ -14,7 +17,7 @@ Cell::Cell(int x, int y, int width, int height){
         color.setRgb(255, 255, 255);
     }
     color_ = color;
-    x_ = x * width;
+    x_ = x * width; //since we are creating squares we need x and y to be more than simply a point
     y_ = y * height;
     width_ = width;
     height_ = height;

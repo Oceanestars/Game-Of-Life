@@ -14,9 +14,9 @@ class Cell : public QGraphicsItem, public QMainWindow {
     Q_OBJECT
 
 public:
+    Cell(int x, int y, int width, int height);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
-    Cell(int x, int y, int width, int height);
 
 private:
   int x_;
