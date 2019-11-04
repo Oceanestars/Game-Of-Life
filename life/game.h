@@ -24,6 +24,7 @@ public:
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 
     void set_color(QColor color){
         color_=color;

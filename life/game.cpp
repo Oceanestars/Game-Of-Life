@@ -3,7 +3,7 @@
 #include <mainwindow.cpp>
 #include <QGraphicsView>
 #include <QGraphicsScene>
-
+#include <QtWidgets>
 #include <QTimer>
 
 Cell::Cell(int x, int y, int width, int height){
@@ -32,5 +32,17 @@ QPainterPath Cell::shape() const
     QPainterPath path;
     path.addRect(x_, y_, width_, width_);
     return path;
+}
+
+void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(widget);
+
+
+    QBrush b = painter->brush();
+    painter->setBrush(QBrush(color_.dark(option->state & QStyle::State_Sunken ? 120 : 100)));
+
+    painter->drawRect(QRect(this->x_, this->y_, this->width_, this->width_));
+    painter->setBrush(b);
 }
 
