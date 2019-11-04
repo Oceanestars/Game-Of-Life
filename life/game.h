@@ -14,9 +14,20 @@ class Cell : public QGraphicsItem, public QMainWindow {
     Q_OBJECT
 
 public:
-    Cell(int x, int y, int width, int height);
+    Cell(int x, int y, int width, int height); //constructor
+
+    int get_x() const { return x_; }  // inline member function
+    int get_y() const { return y_; }  // inline member function
+    int get_width() { return width_; }
+    int get_height() { return height_; }
+    QColor get_color() { return color_; }
+
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
+
+    void set_color(QColor color){
+        color_=color;
+    }
 
 private:
   int x_;
