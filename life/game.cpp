@@ -36,7 +36,7 @@ QPainterPath Cell::shape() const
 
 void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(widget);
+    Q_UNUSED(widget) //should not have a semi colon
 
 
     QBrush b = painter->brush();
