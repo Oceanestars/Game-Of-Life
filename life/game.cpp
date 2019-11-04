@@ -5,8 +5,6 @@
 #include <QGraphicsScene>
 #include <QTimer>
 
-Cell::Cell(QObject *parent) : QObject(parent){}
-
 Cell::Cell(int x, int y, int width, int height){
     QColor color(255, 0, 0);
     //randomly assign pink (alive) with 50% probability and white (dead) with 50% probability
