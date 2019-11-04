@@ -17,6 +17,8 @@
 *.qm
 .#*
 *.*#
+build-*/
+*build-*
 core
 !core/
 tags
