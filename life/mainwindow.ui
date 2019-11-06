@@ -33,7 +33,7 @@
      <enum>QAbstractScrollArea::AdjustToContents</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -46,7 +46,7 @@
      <string>Start</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="stepButton">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -59,7 +59,7 @@
      <string>Step</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="pauseButton">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -72,7 +72,7 @@
      <string>Pause</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="resetButton">
     <property name="geometry">
      <rect>
       <x>410</x>
