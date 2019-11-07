@@ -19,13 +19,16 @@ public:
     int get_x() const { return x_; }  // inline member function
     int get_y() const { return y_; }  // inline member function
     int get_width() { return width_; }
+    int get_current_status() { return current_status; }
+    int get_next_status() { return next_turn_status; }
     int get_height() { return height_; }
     QColor get_color() { return color_; }
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
-
+    void set_current_status(bool current_status_){current_status=current_status_;}
+    void set_next_status(bool next_turn_status_){next_turn_status=next_turn_status_;}
     void set_color(QColor color){
         color_=color;
     }
@@ -35,6 +38,8 @@ private:
   int y_;
   int width_;
   int height_;
+  bool current_status;
+  bool next_turn_status;
 
   QColor color_;
 

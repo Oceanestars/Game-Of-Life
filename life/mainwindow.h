@@ -27,13 +27,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void TurnCounter();
-    void NeighborsCount(); //to also output when we left click
+    int NeighborsCount(); //to also output when we left click
     void DeadOrAlive();
 private slots:
 
     void on_resetButton_clicked();
 
     void on_startButton_clicked();
+
+    void on_pauseButton_clicked();
+
+    void tick_slot();
+
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_stepButton_clicked();
 
 private:
     Ui::MainWindow *ui;

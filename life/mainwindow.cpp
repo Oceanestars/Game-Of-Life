@@ -54,6 +54,11 @@ MainWindow::MainWindow(QWidget *parent)
     bars_.push_back(first_bar);
     BuildGraph_->addItem(first_bar);
 
+    //QTimer *timer2 =
+    timer=new QTimer();
+
+    connect(timer, &QTimer::timeout, this, &MainWindow::tick_slot);
+
 }
 MainWindow::~MainWindow()
 {
@@ -67,7 +72,7 @@ void MainWindow::TurnCounter()
 }
 
 
-void MainWindow::NeighborsCount(){
+int MainWindow::NeighborsCount(){
 
     int count_neighbors=0;
     for(int i = 0; i < 10; i++) {
@@ -169,16 +174,61 @@ void MainWindow::NeighborsCount(){
             qDebug() << count_neighbors;
         }
      }
+    return count_neighbors;
 }
 
 void MainWindow::DeadOrAlive(){
 //This will call countneighbors ,this is the function where we apply
 //the four rules and where we determine if the cell is dead or alive
+     QColor color(255, 0, 0);
+    for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 20; j++) {
+            Cell *current_cell=new Cell(j, i, cell_width_/20, cell_height_/10);
+
+            if(NeighborsCount()<2)
+            {
+
+               // color.setRgb(255, 255, 255);
+                current_cell->set_next_status(false);
+            }
+            if(NeighborsCount()>3)
+            {
+
+               // color.setRgb(255, 255, 255);
+                current_cell->set_next_status(false);
+            }
+            if(NeighborsCount()==2 || NeighborsCount()==3)
+            {
+
+               // color.setRgb(242, 19, 131);
+                current_cell->set_next_status(true);
+            }
+        }
+    }
+    for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 20; j++) {
+             Cell *current_cell=new Cell(j, i, cell_width_/20, cell_height_/10);
+            if(current_cell->get_next_status()==true)
+            {
+                color.setRgb(242, 19, 131);
+                current_cell->set_current_status(true);
+            }
+
+            if(current_cell->get_next_status()==false)
+            {
+                color.setRgb(255, 255, 255);
+                current_cell->set_current_status(false);
+            }
+
+        }
+     }
+    BuildGrid_->update();
 
 }
 
 void MainWindow::on_resetButton_clicked()
 {
+    BuildGrid_->clear();
     turn_=0;
     srand(time(0));
     for(int i = 0; i < 10; i++) {
@@ -193,6 +243,27 @@ void MainWindow::on_resetButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
-    NeighborsCount();
-    timer->start(speed_);
+    //this should only have the timer
+    timer->start(1000);
+}
+
+void MainWindow::on_pauseButton_clicked()
+{
+    timer->stop();
+}
+void MainWindow::tick_slot()
+{
+    DeadOrAlive();
+}
+
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    speed_=value;
+    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
+
+}
+
+void MainWindow::on_stepButton_clicked()
+{
+    DeadOrAlive();
 }

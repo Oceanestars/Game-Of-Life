@@ -11,9 +11,11 @@ Cell::Cell(int x, int y, int width, int height){
     //randomly assign pink (alive) with 50% probability and white (dead) with 50% probability
     if(rand() % 100 < 50) {
         color.setRgb(242, 19, 131);
+        set_current_status(true);
     }
     else{
         color.setRgb(255, 255, 255);
+        set_current_status(false);
     }
     color_ = color;
     x_ = x * width; //since we are creating squares we need x and y to be more than simply a point
