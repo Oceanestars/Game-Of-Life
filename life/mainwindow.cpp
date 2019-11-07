@@ -71,32 +71,99 @@ void MainWindow::NeighborsCount(){
     int count_neighbors=0;
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
-
-
-//for middle cells --------
-
-            //neighbor to the right
-            if(cells[i][j+1]->get_color()== QColor(242, 19, 131)){
-                //alive
-                count_neighbors++;
-
-             }
-            //neighbor to the left
-            if(cells[i][j-1]->get_color()== QColor(242, 19, 131)){
-
-                count_neighbors++;
-             }
-             //neighbor underneath
-            if(cells[i+1][j]->get_color()== QColor(242, 19, 131)){
-                count_neighbors++;
-
+            if(j < 19){
+                //neighbor to the right
+                if(cells[i][j+1]->get_color()== QColor(242, 19, 131)){
+                    //alive
+                    count_neighbors++;
+                 }
             }
-             //neighbor Above
-            if(cells[i-1][j+1]->get_color()== QColor(242, 19, 131)){
+            else if(j == 19){
+                if(cells[i][0]->get_color() == QColor(242, 19, 131)){
+                    //alive
+                    count_neighbors++;
+                }
+            }
+            if(j > 0){
+                //neighbor to the left
+                if(cells[i][j-1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                 }
+            }
+            else if(j == 0){
+                if(cells[i][19]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            if(i < 9){
+                //neighbor underneath
+                if(cells[i+1][j]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            else if(i == 9){
+                if(cells[0][j]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
 
-                count_neighbors++;
-             }
-
+            if(i > 0){
+                //neighbor Above
+                if(cells[i-1][j]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            else if(i == 0){
+                if(cells[9][j]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            if(i > 0 && j < 19){
+                //upper right neighbor
+                if(cells[i-1][j+1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            else if(i == 0){
+                if(j < 19){
+                    if(cells[9][j+1]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+                else{
+                    if(cells[9][0]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+            }
+            else if(j == 19 && i > 0){
+                if(cells[i-1][0]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            if(i < 9 && j <19){
+                //lower right neighbor
+                if(cells[i+1][j+1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            else if(i == 9){
+                if(j < 19){
+                    if(cells[0][j+1]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+                else{
+                    if(cells[0][0]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+            }
+            else if(i > 9 && j == 19){
+                if(cells[i+1][0]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
 
             qDebug() << count_neighbors;
         }
