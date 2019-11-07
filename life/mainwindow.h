@@ -13,6 +13,7 @@ and public slots.
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,10 +41,13 @@ private:
     QGraphicsScene *BuildGraph_;
     int cell_height_;
     int cell_width_;
+    int bar_height_;
+    int bar_width_;
     int turn_ = 0;
     double speed_ = 1.0;
     QTimer *timer;
     Cell * cells[10][20];
+    std::vector <Bar*> bars_;
 
 };
 #endif // MAINWINDOW_H

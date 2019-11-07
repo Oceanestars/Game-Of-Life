@@ -20,25 +20,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     turn_=0;
 
+    //Grid
     BuildGrid_ = new QGraphicsScene;
     QGraphicsView * grid_view = ui->MainPlot;
     grid_view->setScene(BuildGrid_);
     grid_view->setSceneRect(0,0,grid_view->frameSize().width(),grid_view->frameSize().height());
 
-    BuildGraph_ = new QGraphicsScene;
-    QGraphicsView * graph_view = ui->MainPlot_2;
-    graph_view->setScene(BuildGraph_);
-    graph_view->setSceneRect(0,0,graph_view->frameSize().width(),graph_view->frameSize().height());
-
     cell_height_ = grid_view->frameSize().height();
-    cell_width_ = grid_view->frameSize().width()+100 ; //no matter the number there is still a weird edge
-    //20x10
-    for(int i = 0; i < grid_view->frameSize().width(); i = i + cell_width_/20) {
-        BuildGrid_->addLine(i, 0, i, cell_height_);
-    }
-    for(int i = 0; i < grid_view->frameSize().height(); i = i + cell_height_/10) {
-        BuildGrid_->addLine(0, i, cell_width_, i);
-    }
+    cell_width_ = grid_view->frameSize().width(); //no matter the number there is still a weird edge
+
     ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
     ui->label->setText(QString("Turn: 0"));
     ui->label_2->setText(QString("Population: 100 (50%)"));
@@ -51,8 +41,19 @@ MainWindow::MainWindow(QWidget *parent)
             BuildGrid_->addItem(item);
         }
     }
-    //Not working rn
-   //connect(ui->startButton, &QAbstractButton::clicked, this, &MainWindow::on_startButton_clicked());
+    //Graph
+
+    BuildGraph_ = new QGraphicsScene;
+    QGraphicsView * graph_view = ui->MainPlot_2;
+    graph_view->setScene(BuildGraph_);
+    graph_view->setSceneRect(0,0,graph_view->frameSize().width(),graph_view->frameSize().height());
+    bar_height_=graph_view->frameSize().height();
+
+    Bar* first_bar = new Bar(0, bar_height_, int(0.5 * bar_height_ ));
+    //without the int we would have some rounding error(I believe)
+    bars_.push_back(first_bar);
+    BuildGraph_->addItem(first_bar);
+
 }
 MainWindow::~MainWindow()
 {
@@ -119,6 +120,7 @@ void MainWindow::on_resetButton_clicked()
             cells[i][j] = item;
             BuildGrid_->addItem(item);
         }
+    bars_.clear();
     }
 }
 
