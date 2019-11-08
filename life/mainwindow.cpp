@@ -13,6 +13,7 @@ access elements of its library.
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <vector>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -30,8 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     cell_width_ = grid_view->frameSize().width(); //no matter the number there is still a weird edge
 
     ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
-
-
 
     srand(time(0));
     for(int i = 0; i < 10; i++) {
@@ -53,9 +52,10 @@ MainWindow::MainWindow(QWidget *parent)
     QGraphicsView * graph_view = ui->MainPlot_2;
     graph_view->setScene(BuildGraph_);
     graph_view->setSceneRect(0,0,graph_view->frameSize().width(),graph_view->frameSize().height());
-    bar_height_=graph_view->frameSize().height();
-
-    Bar* first_bar = new Bar(0, bar_height_, int(0.5 * bar_height_ ));
+    double pop_percent = (double(pop_) /200.0);
+    y_bar=graph_view->frameSize().height()-2;
+    h_bar = graph_view->frameSize().height() ;
+    Bar* first_bar = new Bar(0, y_bar, int(pop_percent * h_bar));
     //without the int we would have some rounding error(I believe)
     bars_.push_back(first_bar);
     BuildGraph_->addItem(first_bar);
@@ -173,8 +173,30 @@ void MainWindow::DeadOrAlive(){
         pop_ = 0;
     }
     PopCounter(0);
+      double pop_percent = (double(pop_) /200.0);
+    //bar
+    //so we can move everything to the left
+    if (bars_.size() > 20) {  // 600/30 = 20
+        int prev = 0;
+       //for ( for_range_declaration : expression ) statement;
+        for (Bar* bar : bars_) {
+            bar->set_x(-1 * bar->get_w()); // set each bar back -1 bar
+            prev = bar->get_x();
+        }
+        Bar* bar = new Bar(prev+30 , y_bar, int(pop_percent * h_bar));
+        bars_.push_back(bar);
+        BuildGraph_->addItem(bar);
 
+    }
+    //add the bars to the right
+    else {
+       Bar* bar = new Bar((turn_*30)+30, y_bar, int(pop_percent * h_bar));
+       bars_.push_back(bar);
+       BuildGraph_->addItem(bar);
+    }
 
+    BuildGraph_->update();
+    TurnCounter();
 
 }
 void MainWindow::PopCounter(int pop) {
@@ -185,6 +207,8 @@ void MainWindow::PopCounter(int pop) {
 void MainWindow::on_resetButton_clicked()
 {
     BuildGrid_->clear();
+    BuildGraph_->clear();
+    BuildGraph_->update();
     turn_=0;
     pop_=0;
     srand(time(0));
@@ -198,29 +222,16 @@ void MainWindow::on_resetButton_clicked()
                 PopCounter(1);
             }
         }
-        bars_.clear();
     }
+    bars_.clear();
+    double pop_percent = (double(pop_) /200.0);
+    Bar* first_bar = new Bar(0, 98, int(pop_percent * 100));
+    //without the int we would have some rounding error(I believe)
+    bars_.push_back(first_bar);
+    BuildGraph_->addItem(first_bar);
+
 }
-//void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j)
-//{
-//    if(event->button() == Qt::RightButton){
-//        if(cells[i][j]->get_color() == QColor(242, 19, 131)){
-//            qDebug() << "Kill cell";
-//            QColor c = QColor(255,255,255);
-//            cells[i][j]->set_color(c);
-//            PopCounter(-1);
-//        }
-//    }
-//    else if(event->button() == Qt::LeftButton){
-//        if(cells[i][j]->get_color() == QColor(255, 255, 255)){
-//            qDebug() << "Ressurect Cell";
-//            QColor c = QColor(242,19,131);
-//            cells[i][j]->set_color(c);
-//            PopCounter(1);
-//        }
-//    }
-//    update();
-//}
+
 
 void MainWindow::on_startButton_clicked()
 {
