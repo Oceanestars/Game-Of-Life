@@ -165,12 +165,57 @@ int MainWindow::NeighborsCount(){
                     }
                 }
             }
-            else if(i > 9 && j == 19){
+            else if(i < 9 && j == 19){
                 if(cells[i+1][0]->get_color()== QColor(242, 19, 131)){
                     count_neighbors++;
                 }
             }
-
+            if(i > 0 && j > 0){
+                //upper left neighbor
+                if(cells[i-1][j-1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            else if(j == 0){
+                if(i > 0){
+                    if(cells[i-1][19]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+                else{
+                    if(cells[9][19]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+            }
+            else if(j > 0){
+                if(cells[9][j-1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            if(i < 9 && j > 0){
+                //lower left neighbor
+                if(cells[i+1][j-1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
+            else if (j == 0){
+                if (i < 9){
+                    if(cells[i+1][19]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+                else{
+                    if(cells[0][19]->get_color()== QColor(242, 19, 131)){
+                        count_neighbors++;
+                    }
+                }
+            }
+            else if (i == 9) {
+                if(cells[0][j-1]->get_color()== QColor(242, 19, 131)){
+                    count_neighbors++;
+                }
+            }
             qDebug() << count_neighbors;
         }
      }
