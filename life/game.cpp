@@ -1,3 +1,15 @@
+/**
+Abby Nay & Oceane Andreis
+Homework 4
+Date: November 3 2019
+
+This is our game.cpp.
+We are including QGraphicsScene, QTimer, QGraphicsItem, QGraphicsView, QtWidget,and QDebug so we can
+access elements of its library.
+We have implemented our class Cell and our class bar.
+
+*/
+
 #include "game.h"
 #include "mainwindow.h"
 #include <mainwindow.cpp>
@@ -86,11 +98,13 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(event->button() == Qt::RightButton){
-        emit CellSelected(this);
+//        emit CellSelected(this);
         if(this->get_color() == QColor(242, 19, 131)){
+            emit CellSelected(this);
             qDebug() << "Kill cell";
             this->set_color(QColor(255,255,255));
             emit decrease();
+            //emit CellSelected(this);
         }
     }
     else if(event->button() == Qt::LeftButton){

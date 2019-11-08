@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     BuildGraph_->addItem(first_bar);
 
     timer=new QTimer();
+
     connect(timer, SIGNAL(timeout()), this, SLOT(on_startButton_clicked()));
 
 }
@@ -270,11 +271,12 @@ void MainWindow::recieve_dec(){
 
 void MainWindow::CellClickedSlot(Cell *c){
     int neighbors;
+    //width of view is 600 and height is 300, 20x10
     int x = c->get_x()/30; //convert the size of the cells to be the index of the array
     int y = c->get_y()/30;
-    qDebug() << x;
-    qDebug() << y;
+    qDebug() << x;//row
+    qDebug() << y;//col
     neighbors = NeighborsCount(x,y);
-    qDebug()<< neighbors;
+    //qDebug()<< neighbors;
     ui->label_6->setText(QString("Number of neighbors: ")+QString::number(neighbors));
 }
