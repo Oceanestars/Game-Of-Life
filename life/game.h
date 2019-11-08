@@ -35,7 +35,7 @@ public:
 signals:
     void increase();
     void decrease();
-    void CellSelected(Cell *c);
+    void neighbors(int x, int y);
 
 private:
   int x_;

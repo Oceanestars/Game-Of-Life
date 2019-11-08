@@ -39,7 +39,7 @@ public slots:
 
     void recieve_dec();
 
-    void CellClickedSlot(Cell *c);
+    void neighborsSlot(int x, int y);
 
 private slots:
 

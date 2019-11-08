@@ -85,8 +85,12 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if(event->modifiers() == Qt::ShiftModifier){
+        int x = this->get_x()/30;   //convert pixels to the index of our array
+        int y = this->get_y()/30;
+        emit neighbors(x,y);
+    }
     if(event->button() == Qt::RightButton){
-        emit CellSelected(this);
         if(this->get_color() == QColor(242, 19, 131)){
             qDebug() << "Kill cell";
             this->set_color(QColor(255,255,255));

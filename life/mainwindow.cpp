@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
             BuildGrid_->addItem(item);
             connect(item, &Cell::increase, this, &MainWindow::recieve_inc);
             connect(item, &Cell::decrease, this, &MainWindow::recieve_dec);
-            connect(item, &Cell::CellSelected, this, &MainWindow::CellClickedSlot);
+            connect(item, &Cell::neighbors, this, &MainWindow::neighborsSlot);
             if(item->get_color()== QColor(242, 19, 131))
             {
                 PopCounter(1);
@@ -221,7 +221,7 @@ void MainWindow::on_resetButton_clicked()
             BuildGrid_->addItem(item);
             connect(item, &Cell::increase, this, &MainWindow::recieve_inc);
             connect(item, &Cell::decrease, this, &MainWindow::recieve_dec);
-            connect(item, &Cell::CellSelected, this, &MainWindow::CellClickedSlot);
+            connect(item, &Cell::neighbors, this, &MainWindow::neighborsSlot);
             if(item->get_color()== QColor(242, 19, 131))
             {
                 PopCounter(1);
@@ -268,13 +268,8 @@ void MainWindow::recieve_dec(){
     PopCounter(-1);
 }
 
-void MainWindow::CellClickedSlot(Cell *c){
-    int neighbors;
-    int x = c->get_x()/30; //convert the size of the cells to be the index of the array
-    int y = c->get_y()/30;
-    qDebug() << x;
-    qDebug() << y;
-    neighbors = NeighborsCount(x,y);
+void MainWindow::neighborsSlot(int x, int y){
+    int neighbors = NeighborsCount(x,y);
     qDebug()<< neighbors;
     ui->label_6->setText(QString("Number of neighbors: ")+QString::number(neighbors));
 }
