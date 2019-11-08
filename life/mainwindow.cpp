@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
             Cell * item = new Cell(j, i, cell_width_/20, cell_height_/10);
             cells[i][j] = item;
             BuildGrid_->addItem(item);
-            if(item->get_color()== QColor(255, 255, 255))
+            if(item->get_color()== QColor(242, 19, 131))
             {
                 PopCounter(1);
             }
@@ -135,6 +135,7 @@ void MainWindow::DeadOrAlive(){
     int count_neighbors = 0;
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
+
             count_neighbors = NeighborsCount(i,j);
             //if the cell is dead we test to see if there are enough neighbors to reproduce
             if(cells[i][j]->get_color() == QColor(255, 255, 255)){
@@ -172,6 +173,9 @@ void MainWindow::DeadOrAlive(){
         pop_ = 0;
     }
     PopCounter(0);
+
+
+
 }
 void MainWindow::PopCounter(int pop) {
     pop_ += pop;
@@ -182,36 +186,41 @@ void MainWindow::on_resetButton_clicked()
 {
     BuildGrid_->clear();
     turn_=0;
+    pop_=0;
     srand(time(0));
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
             Cell * item = new Cell(j, i, cell_width_/20, cell_height_/10);
             cells[i][j] = item;
             BuildGrid_->addItem(item);
+            if(item->get_color()== QColor(242, 19, 131))
+            {
+                PopCounter(1);
+            }
         }
         bars_.clear();
     }
 }
-void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j)
-{
-    if(event->button() == Qt::RightButton){
-        if(cells[i][j]->get_color() == QColor(242, 19, 131)){
-            qDebug() << "Kill cell";
-            QColor c = QColor(255,255,255);
-            cells[i][j]->set_color(c);
-            PopCounter(-1);
-        }
-    }
-    else if(event->button() == Qt::LeftButton){
-        if(cells[i][j]->get_color() == QColor(255, 255, 255)){
-            qDebug() << "Ressurect Cell";
-            QColor c = QColor(242,19,131);
-            cells[i][j]->set_color(c);
-            PopCounter(1);
-        }
-    }
-    update();
-}
+//void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j)
+//{
+//    if(event->button() == Qt::RightButton){
+//        if(cells[i][j]->get_color() == QColor(242, 19, 131)){
+//            qDebug() << "Kill cell";
+//            QColor c = QColor(255,255,255);
+//            cells[i][j]->set_color(c);
+//            PopCounter(-1);
+//        }
+//    }
+//    else if(event->button() == Qt::LeftButton){
+//        if(cells[i][j]->get_color() == QColor(255, 255, 255)){
+//            qDebug() << "Ressurect Cell";
+//            QColor c = QColor(242,19,131);
+//            cells[i][j]->set_color(c);
+//            PopCounter(1);
+//        }
+//    }
+//    update();
+//}
 
 void MainWindow::on_startButton_clicked()
 {

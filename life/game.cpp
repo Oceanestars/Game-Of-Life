@@ -12,6 +12,7 @@ Cell::Cell(int x, int y, int width, int height){
     if(rand() % 100 < 50) {
         color.setRgb(242, 19, 131);
         set_current_status(true);
+        qDebug("count");
     }
     else{
         color.setRgb(255, 255, 255);
@@ -80,4 +81,21 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 
     painter->drawRect(this->x_, this->y_, this->width_, this->height_);
     painter->setBrush(b);
+}
+
+void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(event->button() == Qt::RightButton){
+        if(this->get_color() == QColor(242, 19, 131)){
+            qDebug() << "Kill cell";
+            this->set_color(QColor(255,255,255));
+        }
+    }
+    else if(event->button() == Qt::LeftButton){
+        if(this->get_color() == QColor(255, 255, 255)){
+            qDebug() << "Ressurect Cell";
+            this->set_color(QColor(242,19,131));
+        }
+    }
+    update();
 }

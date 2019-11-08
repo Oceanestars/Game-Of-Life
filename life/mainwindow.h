@@ -62,6 +62,6 @@ private:
     std::vector <Bar*> bars_;
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j) override;
+    //void mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j) override;
 };
 #endif // MAINWINDOW_H

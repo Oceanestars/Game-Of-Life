@@ -43,6 +43,9 @@ private:
 
   QColor color_;
 
+protected:
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+
 };
 
 class Bar : public QObject, public QGraphicsItem
