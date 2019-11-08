@@ -49,7 +49,7 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(b);
 }
 
-Bar::Bar(int x, int y, int h) {
+Bar::Bar(const int x, const int y, int h) {
 
     x_ = x;
     y_ = y;
@@ -74,7 +74,7 @@ QPainterPath Bar::shape() const
 void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    Q_UNUSED(widget)
+    Q_UNUSED(widget);
 
     QBrush b = painter->brush();
     painter->setBrush(QBrush(color_.dark(option->state & QStyle::State_Sunken ? 120 : 100)));

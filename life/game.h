@@ -62,6 +62,10 @@ public:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
 
+    static int get_w() { return width_; }  // inline member function
+     int get_x() { return x_; }  // inline member function
+
+    void set_x(int offset) { x_ = x_ + offset; } //inline setter
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 
 private:

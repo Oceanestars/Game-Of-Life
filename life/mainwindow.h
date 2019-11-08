@@ -62,10 +62,12 @@ private:
     int bar_height_;
     int bar_width_;
     int turn_ = 0;
-    int pop_percent;
+    int y_bar;
+    double h_bar;
     double speed_ = 1.0;
     QTimer *timer;
     Cell * cells[10][20];
     std::vector <Bar*> bars_;
 };
+
 #endif // MAINWINDOW_H
