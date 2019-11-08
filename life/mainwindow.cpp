@@ -169,7 +169,7 @@ void MainWindow::DeadOrAlive(){
                 current_cell->set_current_status(true);
                 if(pop_> 0)
                 {
-                    PopCounter(1);
+                    //PopCounter(1);
                 }
 
             }
@@ -179,9 +179,9 @@ void MainWindow::DeadOrAlive(){
                 cells[i][j]->set_color(255, 255, 255);
                 //color.setRgb(255, 255, 255);
                 current_cell->set_current_status(false);
-                if(pop_< 0)
+                if(pop_> 0)
                 {
-                    PopCounter(-1);
+                    //PopCounter(-1);
                 }
             }
 
