@@ -87,13 +87,15 @@ void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if(event->button() == Qt::RightButton){
         if(this->get_color() == QColor(242, 19, 131)){
             qDebug() << "Kill cell";
-            this->set_color(255,255,255);
+            QColor c = QColor(255,255,255);
+            this->set_color(c);
         }
     }
     else if(event->button() == Qt::LeftButton){
         if(this->get_color() == QColor(255, 255, 255)){
             qDebug() << "Ressurect Cell";
-            this->set_color(242,19,131);
+            QColor c = QColor(242,19,131);
+            this->set_color(c);
         }
     }
     update();

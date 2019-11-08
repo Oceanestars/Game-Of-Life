@@ -131,40 +131,45 @@ int MainWindow::NeighborsCount(int i, int j){
 void MainWindow::DeadOrAlive(){
 //This will call countneighbors ,this is the function where we apply
 //the four rules and where we determine if the cell is dead or alive
-    QColor color(255, 0, 0);
-    Cell *current_cell=new Cell(21, 21, cell_width_/20, cell_height_/10);
+    QColor colors[10][20];
+    int count_neighbors = 0;
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
-            current_cell = cells[i][j];
-            if(NeighborsCount(i,j)<2)
-            {
-
-               // color.setRgb(255, 255, 255);
-                current_cell->set_next_status(false);
-
+            count_neighbors = NeighborsCount(i,j);
+            //if the cell is dead we test to see if there are enough neighbors to reproduce
+            if(cells[i][j]->get_color() == QColor(255, 255, 255)){
+                if(count_neighbors == 3) {
+                    colors[i][j] = QColor(242, 19, 131);
+                    pop_++;
+                }
+                else {
+                    colors[i][j] = QColor(255, 255, 255);
+                }
             }
-            else if(NeighborsCount(i,j)>3)
-            {
-
-               // color.setRgb(255, 255, 255);
-                current_cell->set_next_status(false);
-
-            }
-            else
-            {
-
-               // color.setRgb(242, 19, 131);
-                current_cell->set_next_status(true);
+            //if the cell is alive we test to see if there are too many neighbors or too little to reproduce
+            else{
+                if(count_neighbors < 2) {
+                    colors[i][j] = QColor(255, 255, 255);
+                    pop_--;
+                }
+                else if(count_neighbors >= 2 && count_neighbors < 4) {
+                    colors[i][j] = QColor(242, 19, 131);
+                }
+                else {
+                    colors[i][j] = QColor(255, 255, 255);
+                    pop_--;
+                }
             }
         }
     }
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
+
              Cell *current_cell=new Cell(j, i, cell_width_/20, cell_height_/10);
             if(current_cell->get_next_status()==true)
             {
 
-                cells[i][j]->set_color(242, 19, 131);
+                cells[i][j]->set_color(QColor(242, 19, 131));
                 //color.setRgb(242, 19, 131);
                 current_cell->set_current_status(true);
                 if(pop_> 0)
@@ -176,7 +181,7 @@ void MainWindow::DeadOrAlive(){
 
             if(current_cell->get_next_status()==false)
             {
-                cells[i][j]->set_color(255, 255, 255);
+                cells[i][j]->set_color(QColor(255, 255, 255));
                 //color.setRgb(255, 255, 255);
                 current_cell->set_current_status(false);
                 if(pop_> 0)
@@ -185,11 +190,16 @@ void MainWindow::DeadOrAlive(){
                 }
             }
 
-        }
-     }
-    TurnCounter();
-    BuildGrid_->update();
 
+
+
+        }
+    }
+    BuildGrid_->update();
+    if (pop_ < 0){
+        pop_ = 0;
+    }
+    PopCounter(0);
 }
 void MainWindow::PopCounter(int pop) {
     pop_ += pop;
