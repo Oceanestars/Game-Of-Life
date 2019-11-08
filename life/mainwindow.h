@@ -31,6 +31,16 @@ public:
     int NeighborsCount(int i, int j); //to also output when we left click
     void DeadOrAlive();
     bool Alive(int i, int j);
+
+    int pop_; //we want to be able to access this from our Cell class, so it is static
+
+public slots:
+    void recieve_inc();
+
+    void recieve_dec();
+
+    void CellClickedSlot(Cell *c);
+
 private slots:
 
     void on_resetButton_clicked();
@@ -38,8 +48,6 @@ private slots:
     void on_startButton_clicked();
 
     void on_pauseButton_clicked();
-
-    //void tick_slot();
 
     void on_horizontalSlider_valueChanged(int value);
 
@@ -54,14 +62,10 @@ private:
     int bar_height_;
     int bar_width_;
     int turn_ = 0;
-    int pop_=0;
     int pop_percent;
     double speed_ = 1.0;
     QTimer *timer;
     Cell * cells[10][20];
     std::vector <Bar*> bars_;
-
-protected:
-    //void mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j) override;
 };
 #endif // MAINWINDOW_H

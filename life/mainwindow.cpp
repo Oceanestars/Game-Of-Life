@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
             Cell * item = new Cell(j, i, cell_width_/20, cell_height_/10);
             cells[i][j] = item;
             BuildGrid_->addItem(item);
+            connect(item, &Cell::increase, this, &MainWindow::recieve_inc);
+            connect(item, &Cell::decrease, this, &MainWindow::recieve_dec);
+            connect(item, &Cell::CellSelected, this, &MainWindow::CellClickedSlot);
             if(item->get_color()== QColor(242, 19, 131))
             {
                 PopCounter(1);
@@ -177,7 +180,7 @@ void MainWindow::DeadOrAlive(){
 
 }
 void MainWindow::PopCounter(int pop) {
-    pop_ += pop;
+   pop_ += pop;
     ui->label_2->setText(QString("Population: ")+QString::number(pop_)+QString(" (")+QString::number((pop_*100)/200)+QString("%)"));
 
 }
@@ -192,6 +195,9 @@ void MainWindow::on_resetButton_clicked()
             Cell * item = new Cell(j, i, cell_width_/20, cell_height_/10);
             cells[i][j] = item;
             BuildGrid_->addItem(item);
+            connect(item, &Cell::increase, this, &MainWindow::recieve_inc);
+            connect(item, &Cell::decrease, this, &MainWindow::recieve_dec);
+            connect(item, &Cell::CellSelected, this, &MainWindow::CellClickedSlot);
             if(item->get_color()== QColor(242, 19, 131))
             {
                 PopCounter(1);
@@ -222,4 +228,23 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
 void MainWindow::on_stepButton_clicked()
 {
     DeadOrAlive();
+}
+
+void MainWindow::recieve_inc(){
+    PopCounter(1);
+}
+
+void MainWindow::recieve_dec(){
+    PopCounter(-1);
+}
+
+void MainWindow::CellClickedSlot(Cell *c){
+    int neighbors;
+    int x = c->get_x()/30; //convert the size of the cells to be the index of the array
+    int y = c->get_y()/30;
+    qDebug() << x;
+    qDebug() << y;
+    neighbors = NeighborsCount(x,y);
+    qDebug()<< neighbors;
+    ui->label_6->setText(QString("Number of neighbors: ")+QString::number(neighbors));
 }

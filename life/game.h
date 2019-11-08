@@ -15,7 +15,6 @@ class Cell : public QObject, public QGraphicsItem {
 
 public:
     Cell(int x, int y, int width, int height); //constructor
-
     int get_x() const { return x_; }  // inline member function
     int get_y() const { return y_; }  // inline member function
     int get_width() { return width_; }
@@ -32,6 +31,11 @@ public:
     void set_color(QColor color){
         color_=color;
     }
+
+signals:
+    void increase();
+    void decrease();
+    void CellSelected(Cell *c);
 
 private:
   int x_;
