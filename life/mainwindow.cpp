@@ -115,9 +115,13 @@ bool MainWindow::Alive(int i, int j){
     return test;
 }
 
-//checks the neighbors by counting the cells around
-//call the Alive function for count, since a return of true is 1, then if we simply add the ones and zeros of the boolean
-//function, then we will end up with a count of how many alive neighbors each cell has.
+/**
+    Return a count of how many neighbors a cell has. Checks outlier cases and regular cases. Implements so that the
+    grid wraps around and is continous. Calls the Alive function to test if neighbor is alive. Since true returns 1, we
+    simply add the results of calling the Alive function to get our count of alive neighbors.
+    @param two integers for the row and column locations of the cell we are counting their neighbors for
+    @return int of count of neighbors
+*/
 int MainWindow::NeighborsCount(int j, int i){
 
     int count_neighbors=0;
@@ -166,7 +170,6 @@ int MainWindow::NeighborsCount(int j, int i){
     where it will move to the right continuously until reseted.
     @param nothing
     @return nothing
-
 */
 void MainWindow::DeadOrAlive(){
     //This will call countneighbors ,this is the function where we apply

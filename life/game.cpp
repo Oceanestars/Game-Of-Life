@@ -18,6 +18,16 @@ We have implemented our class Cell and our class bar.
 #include <QtWidgets>
 #include <QTimer>
 
+/**
+Cell::Cell constructor. Takes 4 parameters to set the location and size of the cells we will put on our grid.
+Randomly assigns a color to the cell, with 50% probability it will be assigned pink (alive) and the other 50%
+it is assigned white (dead).
+@param x
+@param y
+@param width
+@param height
+@return nothing
+*/
 Cell::Cell(int x, int y, int width, int height){
     QColor color(255, 0, 0);
     //randomly assign pink (alive) with 50% probability and white (dead) with 50% probability
@@ -37,11 +47,20 @@ Cell::Cell(int x, int y, int width, int height){
     height_ = height;
 }
 
+/**
+ * Draws the outline for the cells so that we can contain our cells within a square.
+ * @param nothing
+ * @return the rectangle we drew
+ */
 QRectF Cell::boundingRect() const
 {
     return QRectF(x_, y_, width_, width_);
 }
 
+/**
+ * we draw the shape of the cell that we can add to the grid
+ * @return the shape of the cell
+ */
 QPainterPath Cell::shape() const
 {
     QPainterPath path;
@@ -49,6 +68,14 @@ QPainterPath Cell::shape() const
     return path;
 }
 
+/**
+ * Takes in graphics parameters to paint the cell the color we have assigned it in the constructor.
+ * This also repaints our cells when they die/repopulate.
+ * @param painter
+ * @param option
+ * @param widget
+ * @return nothing
+ */
 void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget) //should not have a semi colon
@@ -61,6 +88,13 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(b);
 }
 
+/**
+ * set the bar, constructor that returns nothing. Makes the bar filled in white.
+ * @param x
+ * @param y
+ * @param h
+ * @return nothing
+ */
 Bar::Bar(const int x, const int y, int h) {
 
     x_ = x;
@@ -70,11 +104,19 @@ Bar::Bar(const int x, const int y, int h) {
 
 }
 
+/**
+ * Sets the outline of the rectangle for the bar graph.
+ * @return rectangle outline
+ */
 QRectF Bar::boundingRect() const
 {
     return QRectF(x_, y_, width_, height_);
 }
 
+/**
+ * sets the shape of the bar/rectangle using the painter so we can see it on the graphics item
+ * @return the shape of the bar
+ */
 QPainterPath Bar::shape() const
 {
     QPainterPath path;
@@ -82,7 +124,12 @@ QPainterPath Bar::shape() const
     return path;
 }
 
-//bar paint using QBrush
+/**
+ * fill in the bar graph with the color we set in the constructor (white) so we can see it on the graphics scene
+ * @param painter
+ * @param option
+ * @param widget
+ */
 void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -94,7 +141,12 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
     painter->drawRect(this->x_, this->y_, this->width_, this->height_);
     painter->setBrush(b);
 }
-
+/**
+ * For shift click we emit a signal telling the mainwindow to tell the user how many neighbors that cell has.
+ * For right click if the cell is alive we emit a signal to decrease the population and we set the cell to the dead color.
+ * For left click if the cell is dead we emit a signal to increase the population and we set the cell to the alive color.
+ * @param event
+ */
 void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //shift
@@ -109,7 +161,6 @@ void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 
     if(event->button() == Qt::RightButton){
-//        emit CellSelected(this);
         if(this->get_color() == QColor(242, 19, 131)){
 
             qDebug() << "Kill cell";
