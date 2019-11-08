@@ -96,4 +96,5 @@ void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
             this->set_color(242,19,131);
         }
     }
+    update();
 }

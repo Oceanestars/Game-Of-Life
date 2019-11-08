@@ -28,8 +28,9 @@ public:
     ~MainWindow();
     void TurnCounter();
     void PopCounter(int pop);
-    int NeighborsCount(); //to also output when we left click
+    int NeighborsCount(int i, int j); //to also output when we left click
     void DeadOrAlive();
+    bool Alive(int i, int j);
 private slots:
 
     void on_resetButton_clicked();

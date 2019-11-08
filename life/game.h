@@ -33,7 +33,6 @@ public:
         QColor color(255, 0, 0);
         color.setRgb(r,g,b);
         color_=color;
-        update();
     }
 
 private:

@@ -76,180 +76,81 @@ void MainWindow::TurnCounter()
     ui->label->setText(QString("Turn: ")+QString::number(turn_));
 }
 
+//Check if a cell is alive or not, if alive return true, if not return false
+bool MainWindow::Alive(int i, int j){
+    if(cells[i][j]->get_color()== QColor(242, 19, 131)){
+        return true;
+    }
+    return false;
+}
 
-int MainWindow::NeighborsCount(){
+//checks the neighbors by counting the cells around
+//call the Alive function for count, since a return of true is 1, then if we simply add the ones and zeros of the boolean
+//function, then we will end up with a count of how many alive neighbors each cell has.
+int MainWindow::NeighborsCount(int i, int j){
 
     int count_neighbors=0;
-    for(int i = 0; i < 10; i++) {
-        for(int j = 0; j < 20; j++) {
-            if(j < 19){
-                //neighbor to the right
-                if(cells[i][j+1]->get_color()== QColor(242, 19, 131)){
-                    //alive
-                    count_neighbors++;
-                 }
-            }
-            else if(j == 19){
-                if(cells[i][0]->get_color() == QColor(242, 19, 131)){
-                    //alive
-                    count_neighbors++;
-                }
-            }
-            if(j > 0){
-                //neighbor to the left
-                if(cells[i][j-1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                 }
-            }
-            else if(j == 0){
-                if(cells[i][19]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            if(i < 9){
-                //neighbor underneath
-                if(cells[i+1][j]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            else if(i == 9){
-                if(cells[0][j]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-
-            if(i > 0){
-                //neighbor Above
-                if(cells[i-1][j]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            else if(i == 0){
-                if(cells[9][j]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            if(i > 0 && j < 19){
-                //upper right neighbor
-                if(cells[i-1][j+1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            else if(i == 0){
-                if(j < 19){
-                    if(cells[9][j+1]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-                else{
-                    if(cells[9][0]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-            }
-            else if(j == 19 && i > 0){
-                if(cells[i-1][0]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            if(i < 9 && j <19){
-                //lower right neighbor
-                if(cells[i+1][j+1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            else if(i == 9){
-                if(j < 19){
-                    if(cells[0][j+1]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-                else{
-                    if(cells[0][0]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-            }
-            else if(i < 9 && j == 19){
-                if(cells[i+1][0]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            if(i > 0 && j > 0){
-                //upper left neighbor
-                if(cells[i-1][j-1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            else if(j == 0){
-                if(i > 0){
-                    if(cells[i-1][19]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-                else{
-                    if(cells[9][19]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-            }
-            else if(j > 0){
-                if(cells[9][j-1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            if(i < 9 && j > 0){
-                //lower left neighbor
-                if(cells[i+1][j-1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-            else if (j == 0){
-                if (i < 9){
-                    if(cells[i+1][19]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-                else{
-                    if(cells[0][19]->get_color()== QColor(242, 19, 131)){
-                        count_neighbors++;
-                    }
-                }
-            }
-            else if (i == 9) {
-                if(cells[0][j-1]->get_color()== QColor(242, 19, 131)){
-                    count_neighbors++;
-                }
-            }
-             qDebug() << count_neighbors;
-        }
-     }
+    //upper left
+    if(i==0 && j==0){
+        count_neighbors += Alive(0,1)+Alive(1,0)+Alive(1,1)+Alive(0,19)+Alive(1,19)+Alive(9,0)+Alive(9,1)+Alive(9,19);
+    }
+    //upper right
+    else if(i==0 && j==19){
+        count_neighbors += Alive(0,18)+Alive(1,18)+Alive(1,19)+Alive(0,0)+Alive(1,0)+Alive(9,18)+Alive(9,19)+Alive(9,0);
+    }
+    //lower left
+    else if(i==9 && j==0){
+        count_neighbors += Alive(8,19)+Alive(8,0)+Alive(8,1)+Alive(9,19)+Alive(9,1)+Alive(0,19)+Alive(0,0)+Alive(0,1);
+    }
+    //lower right
+    else if(i==9 && j==19){
+        count_neighbors += Alive(8,18)+Alive(8,19)+Alive(8,0)+Alive(9,18)+Alive(9,0)+Alive(0,18)+Alive(0,19)+Alive(0,0);
+    }
+    //first row
+    else if(i == 0){
+        count_neighbors += Alive(9,j-1)+Alive(9,j)+Alive(9,j+1)+Alive(i,j-1)+Alive(i,j+1)+Alive(i+1,j-1)+Alive(i+1,j)+Alive(i+1,j+1);
+    }
+    //last row
+    else if(i == 9){
+        count_neighbors += Alive(0,j-1)+Alive(0,j)+Alive(0,j+1)+Alive(i,j-1)+Alive(i,j+1)+Alive(i-1,j-1)+Alive(i-1,j)+Alive(i-1,j+1);
+    }
+    //first column
+    else if(j == 0){
+        count_neighbors += Alive(i-1,19)+Alive(i,19)+Alive(i+1,19)+Alive(i-1,j)+Alive(i+1,j)+Alive(i-1,j+1)+Alive(i,j+1)+Alive(i+1,j+1);
+    }
+    //last column
+    else if(j == 19){
+        count_neighbors += Alive(i-1,0)+Alive(i,0)+Alive(i+1,0)+Alive(i-1,j)+Alive(i+1,j)+Alive(i-1,j-1)+Alive(i,j-1)+Alive(i+1,j-1);
+    }
+    else{
+        count_neighbors += Alive(i-1,j-1)+Alive(i-1,j)+Alive(i-1,j+1)+Alive(i,j-1)+Alive(i,j+1)+Alive(i+1,j-1)+Alive(i+1,j)+Alive(i+1,j+1);
+    }
     return count_neighbors;
 }
 
 void MainWindow::DeadOrAlive(){
 //This will call countneighbors ,this is the function where we apply
 //the four rules and where we determine if the cell is dead or alive
-     QColor color(255, 0, 0);
+    QColor color(255, 0, 0);
+    Cell *current_cell=new Cell(21, 21, cell_width_/20, cell_height_/10);
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
-            Cell *current_cell=new Cell(j, i, cell_width_/20, cell_height_/10);
-
-            if(NeighborsCount()<2)
+            current_cell = cells[i][j];
+            if(NeighborsCount(i,j)<2)
             {
 
                // color.setRgb(255, 255, 255);
                 current_cell->set_next_status(false);
 
             }
-            if(NeighborsCount()>3)
+            else if(NeighborsCount(i,j)>3)
             {
 
                // color.setRgb(255, 255, 255);
                 current_cell->set_next_status(false);
 
             }
-            if(NeighborsCount()==2 || NeighborsCount()==3)
+            else
             {
 
                // color.setRgb(242, 19, 131);
