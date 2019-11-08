@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     cell_height_ = grid_view->frameSize().height();
     cell_width_ = grid_view->frameSize().width(); //no matter the number there is still a weird edge
 
-    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
+    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 6));
 
 
 
@@ -204,7 +204,7 @@ void MainWindow::on_resetButton_clicked()
 void MainWindow::on_startButton_clicked()
 {
     DeadOrAlive();
-    timer->start(1000);
+    timer->start(speed_*1000.0);
 }
 
 void MainWindow::on_pauseButton_clicked()
@@ -214,8 +214,8 @@ void MainWindow::on_pauseButton_clicked()
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    speed_=value;
-    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
+    speed_=1-(value/100.0);
+    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 6));
 
 }
 
