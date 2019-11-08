@@ -27,6 +27,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void TurnCounter();
+    void PopCounter(int pop);
     int NeighborsCount(); //to also output when we left click
     void DeadOrAlive();
 private slots:
@@ -52,7 +53,7 @@ private:
     int bar_height_;
     int bar_width_;
     int turn_ = 0;
-    int pop_=200;
+    int pop_=0;
     int pop_percent;
     double speed_ = 1.0;
     QTimer *timer;

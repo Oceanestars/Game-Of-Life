@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
             BuildGrid_->addItem(item);
             if(item->get_color()== QColor(255, 255, 255))
             {
-                pop_--;
+                PopCounter(1);
             }
         }
     }
@@ -60,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
     bars_.push_back(first_bar);
     BuildGraph_->addItem(first_bar);
 
-    //QTimer *timer2 =
     timer=new QTimer();
 
     connect(timer, &QTimer::timeout, this, &MainWindow::tick_slot);
@@ -241,14 +240,14 @@ void MainWindow::DeadOrAlive(){
 
                // color.setRgb(255, 255, 255);
                 current_cell->set_next_status(false);
-                pop_--;
+
             }
             if(NeighborsCount()>3)
             {
 
                // color.setRgb(255, 255, 255);
                 current_cell->set_next_status(false);
-                pop_--;
+
             }
             if(NeighborsCount()==2 || NeighborsCount()==3)
             {
@@ -264,18 +263,25 @@ void MainWindow::DeadOrAlive(){
             if(current_cell->get_next_status()==true)
             {
 
-                cells[i][j]->set_color(QColor(242, 19, 131));
+                cells[i][j]->set_color(242, 19, 131);
                 //color.setRgb(242, 19, 131);
                 current_cell->set_current_status(true);
-
+                if(pop_> 0)
+                {
+                    PopCounter(1);
+                }
 
             }
 
             if(current_cell->get_next_status()==false)
             {
-                cells[i][j]->set_color(QColor(255, 255, 255));
+                cells[i][j]->set_color(255, 255, 255);
                 //color.setRgb(255, 255, 255);
                 current_cell->set_current_status(false);
+                if(pop_< 0)
+                {
+                    PopCounter(-1);
+                }
             }
 
         }
@@ -284,7 +290,11 @@ void MainWindow::DeadOrAlive(){
     BuildGrid_->update();
 
 }
+void MainWindow::PopCounter(int pop) {
+    pop_ += pop;
+    ui->label_2->setText(QString("Population: ")+QString::number(pop_)+QString(" (")+QString::number((pop_*100)/200)+QString("%)"));
 
+}
 void MainWindow::on_resetButton_clicked()
 {
     BuildGrid_->clear();
