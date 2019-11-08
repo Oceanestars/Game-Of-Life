@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     turn_=0;
-
+    QColor color(255, 0, 0);
     //Grid
     BuildGrid_ = new QGraphicsScene;
     QGraphicsView * grid_view = ui->MainPlot;
@@ -30,8 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
     cell_width_ = grid_view->frameSize().width(); //no matter the number there is still a weird edge
 
     ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
-    ui->label->setText(QString("Turn: 0"));
-    ui->label_2->setText(QString("Population: 100 (50%)"));
+
+
 
     srand(time(0));
     for(int i = 0; i < 10; i++) {
@@ -39,8 +39,14 @@ MainWindow::MainWindow(QWidget *parent)
             Cell * item = new Cell(j, i, cell_width_/20, cell_height_/10);
             cells[i][j] = item;
             BuildGrid_->addItem(item);
+            if(item->get_color()== QColor(255, 255, 255))
+            {
+                pop_--;
+            }
         }
     }
+    ui->label->setText(QString("Turn: ")+QString::number(turn_));
+    ui->label_2->setText(QString("Population: ")+QString::number(pop_)+ QString(" (") + QString::number(( pop_*100 )/200 ) + QString("%)" ));
     //Graph
 
     BuildGraph_ = new QGraphicsScene;
@@ -216,7 +222,7 @@ int MainWindow::NeighborsCount(){
                     count_neighbors++;
                 }
             }
-            qDebug() << count_neighbors;
+             qDebug() << count_neighbors;
         }
      }
     return count_neighbors;
@@ -235,12 +241,14 @@ void MainWindow::DeadOrAlive(){
 
                // color.setRgb(255, 255, 255);
                 current_cell->set_next_status(false);
+                pop_--;
             }
             if(NeighborsCount()>3)
             {
 
                // color.setRgb(255, 255, 255);
                 current_cell->set_next_status(false);
+                pop_--;
             }
             if(NeighborsCount()==2 || NeighborsCount()==3)
             {
@@ -255,18 +263,24 @@ void MainWindow::DeadOrAlive(){
              Cell *current_cell=new Cell(j, i, cell_width_/20, cell_height_/10);
             if(current_cell->get_next_status()==true)
             {
-                color.setRgb(242, 19, 131);
+
+                cells[i][j]->set_color(QColor(242, 19, 131));
+                //color.setRgb(242, 19, 131);
                 current_cell->set_current_status(true);
+
+
             }
 
             if(current_cell->get_next_status()==false)
             {
-                color.setRgb(255, 255, 255);
+                cells[i][j]->set_color(QColor(255, 255, 255));
+                //color.setRgb(255, 255, 255);
                 current_cell->set_current_status(false);
             }
 
         }
      }
+    TurnCounter();
     BuildGrid_->update();
 
 }

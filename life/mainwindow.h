@@ -52,6 +52,8 @@ private:
     int bar_height_;
     int bar_width_;
     int turn_ = 0;
+    int pop_=200;
+    int pop_percent;
     double speed_ = 1.0;
     QTimer *timer;
     Cell * cells[10][20];
