@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     cell_height_ = grid_view->frameSize().height();
     cell_width_ = grid_view->frameSize().width(); //no matter the number there is still a weird edge
 
-    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
+    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 6));
 
     srand(time(0));
     for(int i = 0; i < 10; i++) {
@@ -61,8 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     BuildGraph_->addItem(first_bar);
 
     timer=new QTimer();
-
-    connect(timer, &QTimer::timeout, this, &MainWindow::tick_slot);
+    connect(timer, SIGNAL(timeout()), this, SLOT(on_startButton_clicked()));
 
 }
 MainWindow::~MainWindow()
@@ -232,26 +231,21 @@ void MainWindow::on_resetButton_clicked()
 
 }
 
-
 void MainWindow::on_startButton_clicked()
 {
-    //this should only have the timer
-    timer->start(1000);
+    DeadOrAlive();
+    timer->start(speed_*1000.0);
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
     timer->stop();
 }
-void MainWindow::tick_slot()
-{
-    DeadOrAlive();
-}
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    speed_=value;
-    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 4));
+    speed_=1-(value/100.0);
+    ui->label_5->setText(QString("Speed: ")+QString::number(speed_, 'f', 6));
 
 }
 
