@@ -39,7 +39,7 @@ private slots:
 
     void on_pauseButton_clicked();
 
-    void tick_slot();
+    //void tick_slot();
 
     void on_horizontalSlider_valueChanged(int value);
 

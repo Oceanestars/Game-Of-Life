@@ -61,8 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     BuildGraph_->addItem(first_bar);
 
     timer=new QTimer();
-
-    connect(timer, &QTimer::timeout, this, &MainWindow::tick_slot);
+    connect(timer, SIGNAL(timeout()), this, SLOT(on_startButton_clicked()));
 
 }
 MainWindow::~MainWindow()
@@ -201,40 +200,16 @@ void MainWindow::on_resetButton_clicked()
         bars_.clear();
     }
 }
-//void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event, int i, int j)
-//{
-//    if(event->button() == Qt::RightButton){
-//        if(cells[i][j]->get_color() == QColor(242, 19, 131)){
-//            qDebug() << "Kill cell";
-//            QColor c = QColor(255,255,255);
-//            cells[i][j]->set_color(c);
-//            PopCounter(-1);
-//        }
-//    }
-//    else if(event->button() == Qt::LeftButton){
-//        if(cells[i][j]->get_color() == QColor(255, 255, 255)){
-//            qDebug() << "Ressurect Cell";
-//            QColor c = QColor(242,19,131);
-//            cells[i][j]->set_color(c);
-//            PopCounter(1);
-//        }
-//    }
-//    update();
-//}
 
 void MainWindow::on_startButton_clicked()
 {
-    //this should only have the timer
+    DeadOrAlive();
     timer->start(1000);
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
     timer->stop();
-}
-void MainWindow::tick_slot()
-{
-    DeadOrAlive();
 }
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
