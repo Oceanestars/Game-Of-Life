@@ -14,6 +14,15 @@ access elements of its library.
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <vector>
+
+
+/**
+    Return nothing(constructor)
+
+    @param QWidget
+    @return Sets up the grid, the bar, and the labels
+
+*/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -68,18 +77,34 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(on_startButton_clicked()));
 
 }
+//Deconstructor
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/**
+    Return nothing, increases the turn_ variable and
+    updates the label
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::TurnCounter()
 {
     turn_++;
     ui->label->setText(QString("Turn: ")+QString::number(turn_));
 }
 
-//Check if a cell is alive or not, if alive return true, if not return false
+
+/**
+    Return a bool, Check if a cell is alive or not, if alive return true,
+    if not return false
+    updates the label
+    @param nothing
+    @return bool
+
+*/
 bool MainWindow::Alive(int i, int j){
     bool test = false;
     if(cells[i][j]->get_color()== QColor(242, 19, 131)){
@@ -93,7 +118,7 @@ bool MainWindow::Alive(int i, int j){
 //checks the neighbors by counting the cells around
 //call the Alive function for count, since a return of true is 1, then if we simply add the ones and zeros of the boolean
 //function, then we will end up with a count of how many alive neighbors each cell has.
-int MainWindow::NeighborsCount(int i, int j){
+int MainWindow::NeighborsCount(int j, int i){
 
     int count_neighbors=0;
     //upper left
@@ -134,6 +159,15 @@ int MainWindow::NeighborsCount(int i, int j){
     return count_neighbors;
 }
 
+
+/**
+    Return nothing, it calls neighbors count and set the right color to the cell
+    depending if it should be alive or dead. The bar graph  is also set to work
+    where it will move to the right continuously until reseted.
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::DeadOrAlive(){
     //This will call countneighbors ,this is the function where we apply
     //the four rules and where we determine if the cell is dead or alive
@@ -142,7 +176,7 @@ void MainWindow::DeadOrAlive(){
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
 
-            count_neighbors = NeighborsCount(i,j);
+            count_neighbors = NeighborsCount(j,i);
             //if the cell is dead we test to see if there are enough neighbors to reproduce
             if(cells[i][j]->get_color() == QColor(255, 255, 255)){
                 if(count_neighbors == 3) {
@@ -205,11 +239,26 @@ void MainWindow::DeadOrAlive(){
     TurnCounter();
 
 }
+
+/**
+    Return nothing, increases the population and sets the population label accordingly
+    @param population
+    @return nothing
+
+*/
 void MainWindow::PopCounter(int pop) {
    pop_ += pop;
     ui->label_2->setText(QString("Population: ")+QString::number(pop_)+QString(" (")+QString::number((pop_*100)/200)+QString("%)"));
 
 }
+
+/**
+    Return nothing, it resets/clear the grid
+    and the bar graph and all the labels.
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::on_resetButton_clicked()
 {
     BuildGrid_->clear();
@@ -241,17 +290,37 @@ void MainWindow::on_resetButton_clicked()
 
 }
 
+/**
+    Return nothing, it starts the timer
+    and the bar graph and grid are populated from our deadoralive function
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::on_startButton_clicked()
 {
     DeadOrAlive();
     timer->start(speed_*1000.0);
 }
 
+/**
+    Return nothing, it pauses the timer
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::on_pauseButton_clicked()
 {
     timer->stop();
 }
 
+/**
+    Return nothing, it adjusts the label of the slider
+    and grabs the value/speed from the slider
+    @param valueß
+    @return nothing
+
+*/
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     speed_=1-(value/100.0);
@@ -259,19 +328,45 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
 
 }
 
+/**
+    Return nothing, it steps through our game
+    It calls our deadoralive function to populate the graph and the grid
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::on_stepButton_clicked()
 {
     DeadOrAlive();
 }
 
+/**
+    Return nothing, it increases our population
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::recieve_inc(){
     PopCounter(1);
 }
 
+/**
+    Return nothing, it decreases our population
+    @param nothing
+    @return nothing
+
+*/
 void MainWindow::recieve_dec(){
     PopCounter(-1);
 }
 
+/**
+    Return nothing, it changes our number of neighbors label and it grabs the
+    number of neighbor one cell has when we shift click on a cell
+    @param x and y
+    @return nothing
+
+*/
 void MainWindow::neighborsSlot(int x, int y){
     int neighbors;
     neighbors = NeighborsCount(x,y);
