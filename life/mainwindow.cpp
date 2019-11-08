@@ -164,7 +164,35 @@ void MainWindow::DeadOrAlive(){
     }
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 20; j++) {
-            cells[i][j]->set_color(colors[i][j]);
+
+             Cell *current_cell=new Cell(j, i, cell_width_/20, cell_height_/10);
+            if(current_cell->get_next_status()==true)
+            {
+
+                cells[i][j]->set_color(QColor(242, 19, 131));
+                //color.setRgb(242, 19, 131);
+                current_cell->set_current_status(true);
+                if(pop_> 0)
+                {
+                    //PopCounter(1);
+                }
+
+            }
+
+            if(current_cell->get_next_status()==false)
+            {
+                cells[i][j]->set_color(QColor(255, 255, 255));
+                //color.setRgb(255, 255, 255);
+                current_cell->set_current_status(false);
+                if(pop_> 0)
+                {
+                    //PopCounter(-1);
+                }
+            }
+
+
+
+
         }
     }
     BuildGrid_->update();
