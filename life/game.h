@@ -1,8 +1,19 @@
+/**
+Abby Nay & Oceane Andreis
+Homework 4
+Date: November 3 2019
+
+This is our game.h.
+We are including QGraphicsScene, QMainWindow, QGraphicsItem, QGraphicsView, QColor, QtWidget,and QDebug so we can
+access elements of its library.
+We have our class Cell and our class bar.
+
+*/
+
 #ifndef GAME_H
 #define GAME_H
 
 #include <QColor>
-#include <QWidget>
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>

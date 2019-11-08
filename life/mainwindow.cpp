@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     BuildGraph_->addItem(first_bar);
 
     timer=new QTimer();
+
     connect(timer, SIGNAL(timeout()), this, SLOT(on_startButton_clicked()));
 
 }
