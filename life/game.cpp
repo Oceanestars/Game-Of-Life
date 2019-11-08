@@ -81,22 +81,3 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
     painter->drawRect(this->x_, this->y_, this->width_, this->height_);
     painter->setBrush(b);
 }
-
-void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    if(event->button() == Qt::RightButton){
-        if(this->get_color() == QColor(242, 19, 131)){
-            qDebug() << "Kill cell";
-            QColor c = QColor(255,255,255);
-            this->set_color(c);
-        }
-    }
-    else if(event->button() == Qt::LeftButton){
-        if(this->get_color() == QColor(255, 255, 255)){
-            qDebug() << "Ressurect Cell";
-            QColor c = QColor(242,19,131);
-            this->set_color(c);
-        }
-    }
-    update();
-}
