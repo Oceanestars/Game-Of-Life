@@ -42,7 +42,7 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 
     QBrush b = painter->brush();
-    painter->setBrush(QBrush(color_.dark(option->state & QStyle::State_Sunken ? 120 : 100)));
+    painter->setBrush(QBrush(color_));
 
     painter->drawRect(QRect(this->x_, this->y_, this->width_, this->width_));
     painter->setBrush(b);
@@ -82,3 +82,18 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
     painter->setBrush(b);
 }
 
+void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(event->button() == Qt::RightButton){
+        if(this->get_color() == QColor(242, 19, 131)){
+            qDebug() << "Kill cell";
+            this->set_color(255,255,255);
+        }
+    }
+    else if(event->button() == Qt::LeftButton){
+        if(this->get_color() == QColor(255, 255, 255)){
+            qDebug() << "Ressurect Cell";
+            this->set_color(242,19,131);
+        }
+    }
+}

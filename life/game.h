@@ -29,8 +29,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     void set_current_status(bool current_status_){current_status=current_status_;}
     void set_next_status(bool next_turn_status_){next_turn_status=next_turn_status_;}
-    void set_color(QColor color){
+    void set_color(int r, int g, int b){
+        QColor color(255, 0, 0);
+        color.setRgb(r,g,b);
         color_=color;
+        update();
     }
 
 private:
@@ -42,6 +45,9 @@ private:
   bool next_turn_status;
 
   QColor color_;
+
+protected:
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 };
 
